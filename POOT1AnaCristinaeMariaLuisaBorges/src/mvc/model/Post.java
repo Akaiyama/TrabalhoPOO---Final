@@ -4,6 +4,7 @@
  */
 package mvc.model;
 import java.time.LocalDate;
+import java.util.Objects;
 /**
  *
  * @author mb780
@@ -19,10 +20,9 @@ public class Post {
     private static long serialP;
     
     public Post(){
-        Post.serialP = Post.serialP + 1;
-        this.id = Post.serialP;
+        this.id = Post.serialP++;
         this.dataCriacao = LocalDate.now();
-        this.dataModificacao = LocalDate.now(); 
+        this.dataModificacao = LocalDate.now();
     }
 
     public Pessoa getPessoa() {
@@ -67,4 +67,39 @@ public class Post {
                 + "\nPessoa: " + pessoa + "\nid: " + id + "\n Postagem: " + postagem
                 + "\n dataCriacao: " + dataCriacao + ", dataModificacao: " + dataModificacao + '}';
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Post other = (Post) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (!Objects.equals(this.postagem, other.postagem)) {
+            return false;
+        }
+        if (!Objects.equals(this.pessoa, other.pessoa)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataCriacao, other.dataCriacao)) {
+            return false;
+        }
+        return Objects.equals(this.dataModificacao, other.dataModificacao);
+    }
+    
+    
 }

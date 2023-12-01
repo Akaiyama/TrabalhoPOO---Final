@@ -46,7 +46,7 @@ public class RegistroDietaDAO {
             }
         }
         if (!temReg) {
-            System.out.println("não existe registro cadastrad");
+            System.out.println("não existe registro cadastrado");
         }
     }
 

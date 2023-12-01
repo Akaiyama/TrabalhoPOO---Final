@@ -60,6 +60,7 @@ public class GUIMain {
         builder.append("\n6 - Excluir conta");
         builder.append("\n7 - Seguidores");
         builder.append("\n8 - Mensagens");
+        builder.append("\n9 - Posts");
         builder.append("\nQual sua opcao ? R: ");
         System.out.println(builder.toString());
 
@@ -436,6 +437,18 @@ public class GUIMain {
         int opc = Integer.parseInt(scanner.nextLine());
         return opc;
     }
+    
+    public int menuPostagem(){
+        StringBuilder builder = new StringBuilder("");
+        builder.append("\n1 - Postar;");
+        builder.append("\n2 - Alterar post;");
+        builder.append("\n3 - Excluir post;");
+        builder.append("\n4 - Mostrar todos os posts;");
+        System.out.println(builder.toString());
+        int opc = Integer.parseInt(scanner.nextLine());
+        return opc;
+    }
+    
     
     public Refeicoes criaRefeicao(int opcRe, Dieta dieta) {
        Refeicoes refeicao = new Refeicoes();

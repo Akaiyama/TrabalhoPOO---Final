@@ -106,6 +106,10 @@ public class Seguir {
         }
         return Objects.equals(this.dataModificacao, other.dataModificacao);
     }
+
+    Object getSeguindo() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
     
 }

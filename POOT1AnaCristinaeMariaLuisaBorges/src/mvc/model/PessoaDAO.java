@@ -34,7 +34,10 @@ public class PessoaDAO {
         p2.setSenha("teste");
         
         this.adiciona(p2);
-        
+    }
+    
+    public Pessoa[] getPessoas() {
+        return pessoas;
     }
     
     public Pessoa buscaPessoaLogin(String login, String senha){

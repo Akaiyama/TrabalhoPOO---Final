@@ -46,7 +46,7 @@ public class controlMain {
     private PreferenciasDAO preferenciasDAO = new PreferenciasDAO();
     private MensagemDAO mensagemDAO = new MensagemDAO(pessoaDAO, pessoaDAO);
     private SeguirDAO seguindoDAO = new SeguirDAO(pessoaDAO);
-    private PostDAO postsDAO = new PostDAO(pessoaDAO, dietaDAO, avaliacaoDAO);
+    private PostDAO postsDAO = new PostDAO(pessoaDAO);
     Scanner scanner = new Scanner(System.in);
 
     public controlMain() {
@@ -66,6 +66,8 @@ public class controlMain {
                     if (logada != null) {
                         int opcMenu = 10;
                         do {
+                            //colocar timeline aqui
+                            
                             opcMenu = gui.menuPrincipal();
                             switch (opcMenu) {
                                 case 0:
@@ -176,17 +178,52 @@ public class controlMain {
                                             } else {
                                                 Pessoa p2 = pessoaDAO.buscaPorNome(destinatario);
                                                 Mensagem m = mensagemDAO.mandarMensagem(logada, p2, mensagem);
-                                                mensagemDAO.adiciona(m);
+                                                mensagemDAO.adicionaMensagem(m);
                                             }
-
+                                            break;
                                         case 2:
                                             mensagemDAO.mostrarTodos();
-
                                             break;
 
                                         case 0:
                                             break;
                                     }
+                                    break;
+                                case 9:
+                                    int opcPost = gui.menuPostagem();
+                                    
+                                    switch(opcPost){
+                                        case 1:
+                                            System.out.println("Insira o seu novo post:");
+                                            String postagem = scanner.nextLine();
+                                            Post post = postsDAO.inserirPost(logada, postagem);
+                                            postsDAO.adiciona(post);
+                                            break;
+                                        case 2:
+                                            postsDAO.mostrarTodosDetalhado();
+                                            System.out.println("Insira o id do post que voce deseja alterar:");
+                                            String id = scanner.nextLine();
+                                            
+                                            System.out.println("Insira a nova postagem:");
+                                            postagem = scanner.nextLine();
+                                            int ID = Integer.parseInt(id);
+                                            postsDAO.alteraPost(ID, postagem);
+                                            break;
+                                        case 3:
+                                            postsDAO.mostrarTodosDetalhado();
+                                            System.out.println("Insira o id do post que voce deseja excluir:");
+                                            id = scanner.nextLine();
+                                            ID = Integer.parseInt(id);
+                                            postsDAO.excluirPost(ID);
+                                            break;
+                                        case 4:
+                                            postsDAO.mostrarTodosNormal();
+                                            break;
+                                            
+                                        case 0:
+                                            break;
+                                    }
+                                    break;
 
                             }
                         } while (opcMenu != 0);

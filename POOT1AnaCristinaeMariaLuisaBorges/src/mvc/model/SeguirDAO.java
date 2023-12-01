@@ -27,6 +27,10 @@ public class SeguirDAO {
         this.adiciona(s2);
     }
 
+    public Seguir[] getSeguindo() {
+        return seguindo;
+    }
+
     public boolean começarASeguir(Pessoa origem, Pessoa destino) {
         boolean check = false;
         Seguir seguir = buscarSeguidor(origem, destino);
