@@ -43,23 +43,36 @@ public class MensagemDAO {
         m4.setPessoaDestino(p1);
         this.adiciona(m4);
     }
-    
-    public boolean mandarMensagem(Pessoa origem, Pessoa destino, String novaMensagem) {
-        Mensagem mensagem = new Mensagem();
-        boolean check = false;
-        for (Mensagem m : mensagens) {
-            if(m != null){
-                if (m.getPessoaOrigem().equals(origem) && m.getPessoaDestino().equals(destino)) {
-                    mensagem.setMensagem(m.getMensagem());
-                    m.setMensagem(mensagem.getMensagem()+ "\n" + novaMensagem);
-                    check = true;
-                } 
-                else {
-                }
+
+    public boolean adicionaMensagem(Mensagem m) {
+        int posicao = this.proximaPosicaoLivre();
+        if (posicao != -1) {
+            mensagens[posicao] = m;
+            return true;
+        } else {
+            return false;
+        }
+    }
+        
+    public int proximaPosicaoLivre() {
+       for (int i = 0; i < mensagens.length; i++) {
+            if (mensagens[i] == null) {
+                return i;
             }
         }
-        return check;
+       return -1;
     }
+
+    public Mensagem mandarMensagem(Pessoa origem, Pessoa destino, String novaMensagem) {
+        Mensagem mensagem = new Mensagem();
+        for (Mensagem m : mensagens) {
+                mensagem.setPessoaOrigem(origem);
+                mensagem.setPessoaDestino(destino);
+                mensagem.setMensagem(novaMensagem);
+                
+            }
+        return mensagem;
+    }  
     
     public boolean adiciona(Mensagem mensagem) {
         int proximaPosicaoLivre = this.proximaPosicaoLivre();
@@ -90,7 +103,7 @@ public class MensagemDAO {
             }
         }
         if (!tem) {
-            System.out.println("Não há mensagem cadastrada.");
+            System.out.println("Não ha mensagem cadastrada.");
         }
     }
 
@@ -111,15 +124,5 @@ public class MensagemDAO {
             }
         }
         return false;
-    }
-
-    private int proximaPosicaoLivre() {
-        for (int i = 0; i < mensagens.length; i++) {
-            if (mensagens[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-
     }
 }

@@ -29,7 +29,6 @@ import mvc.model.Post;
 import mvc.model.PostDAO;
 import mvc.view.GUIMain;
 
-
 /**
  *
  * @author Ana Cristina e Maria Luisa
@@ -109,92 +108,86 @@ public class controlMain {
                                     }
                                     break;
                                 case 7:
-                                    int resposta_seguir = gui.menuSeguir();
+                                    int opcSeguir = gui.menuSeguir();
                                     String nome;
                                     Seguir s3 = new Seguir();
-                       
-                                    switch(resposta_seguir){
-                                    case 1:
-                                          //  String nome;
+
+                                    switch (opcSeguir) {
+                                        case 1:
+                                            //  String nome;
                                             System.out.println("Digite o nome da pessoa que voce quer comecar a seguir:");
                                             nome = scanner.nextLine();
 
                                             boolean check = false;
 
                                             Pessoa p = pessoaDAO.buscaPorNome(nome);
-                                            if(p == null){
+                                            if (p == null) {
                                                 System.out.println("essa pessoa nao existe");
-                                            }
-                                            else{
+                                            } else {
                                                 s3.setPessoaOrigem(logada);
                                                 s3.setPessoaDestino(p);
 
                                                 check = seguindoDAO.começarASeguir(logada, p);
-                                                if(check == true){
+                                                if (check == true) {
                                                     System.out.println("Pronto, agora voce segue essa pessoa");
-                                                }
-                                                else{
+                                                } else {
                                                     System.out.println("Voce ja segue essa pessoa");
                                                 }
                                             }
-                                        break;
-                                            
-                                        case 2: 
+                                            break;
+
+                                        case 2:
                                             System.out.println("Digite o nome da pessoa que voce quer deixar de seguir:");
                                             nome = scanner.nextLine();
-                                            
+
                                             Pessoa p1 = pessoaDAO.buscaPorNome(nome);
                                             s3.setPessoaOrigem(logada);
                                             s3.setPessoaDestino(p1);
-                                            
+
                                             check = seguindoDAO.deixarDeSeguir(logada, p1);
-                                            if(check == true){
+                                            if (check == true) {
                                                 System.out.println("Pronto, deixou de seguir essa pessoa");
-                                            }
-                                            else{
+                                            } else {
                                                 System.out.println("Voce nao segue essa pessoa");
                                             }
-                                            
-                                        break;
-                                        
+
+                                            break;
+
                                         case 3:
                                             seguindoDAO.mostrarTodos(logada);
-                                        break;
-                                        
-                                        case 0:
-                                        break;
-                                    }break;
-                                case 8:
-                                    boolean check = false;
-                                    int resposta_mensagem = gui.menuMensagens();
-                                    switch (resposta_mensagem) {
-                                        case 1:
-                                            System.out.println("Destinatario:");
-                                            String destinatario = scanner.nextLine();
-
-                                            System.out.println("Digite o conteudo da mensagem:");
-                                            String mensagem = scanner.nextLine();
-
-                                            Pessoa p2 = pessoaDAO.buscaPorNome(destinatario);
-                                         
-                                            check = mensagemDAO.mandarMensagem(logada, p2, mensagem);
-                                            if(check == true){
-                                                System.out.println("Mensagem enviada");
-                                            }
-                                            else{
-                                                System.out.println("Nao e possivel enviar nessa mensagem");
-                                            }
-                                            break;
-                                            
-                                        case 2:
-                                            mensagemDAO.mostrarTodos();
-                                           
                                             break;
 
                                         case 0:
                                             break;
                                     }
-  
+                                    break;
+                                case 8:
+                                    int opcMensagem = gui.menuMensagens();
+                                    
+                                    switch (opcMensagem) {
+                                        case 1:
+                                            System.out.println("Destinatario:");
+                                            String destinatario = scanner.nextLine();
+                                            System.out.println("Digite o conteudo da mensagem:");
+                                            String mensagem = scanner.nextLine();
+                                            
+                                            if (destinatario == null || mensagem == null) {
+                                                System.out.println("Nao foi possivel enviar essa mensagem.");
+                                            } else {
+                                                Pessoa p2 = pessoaDAO.buscaPorNome(destinatario);
+                                                Mensagem m = mensagemDAO.mandarMensagem(logada, p2, mensagem);
+                                                mensagemDAO.adiciona(m);
+                                            }
+
+                                        case 2:
+                                            mensagemDAO.mostrarTodos();
+
+                                            break;
+
+                                        case 0:
+                                            break;
+                                    }
+
                             }
                         } while (opcMenu != 0);
                     } else {
@@ -460,7 +453,7 @@ public class controlMain {
 
         if (refeicoesDAO.adiciona(refeicao)) {
             alimentoDAO.mostrarTodos();
-            
+
             while (refeicao.getCalorias() <= refeicao.getCaloriaMAX()) {
                 AlimentoRefeicao ali = gui.criaAlimentoRefeicao(refeicao, alimentoDAO);
                 if (ali != null) {
@@ -470,11 +463,10 @@ public class controlMain {
                     alimRefDAO.mostrarTodos();
                 } else {
                     System.out.println("\nAlgo deu errado, tente novamente");
-                    
+
                 }
             }
-        }else
-        {
+        } else {
             gui.erro();
         }
 
