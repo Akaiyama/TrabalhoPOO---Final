@@ -4,7 +4,13 @@
  */
 package mvc.model;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
+import mvc.control.ConnectionFactory;
 
 /**
  *
@@ -216,6 +222,41 @@ public class AlimentoDAO {
         
     }
 
+    
+    public long adicionaERetornaId(Alimento elemento) {
+        String sql = "insert into alimento "
+                + "(nome,carboidratos,proteinas,gorduras,porcao,calorias,dataCriacao,dataModificacao)" 
+                + " values (?,?,?,?,?,?,?,?)";
+
+        try (Connection connection = new ConnectionFactory().getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            // seta os valores
+            stmt.setString(1, elemento.getNome());
+            stmt.setDouble(2, elemento.getCarboidratos());
+            stmt.setDouble(3, elemento.getProteinas());
+            stmt.setDouble(4, elemento.getGorduras());
+            stmt.setInt(5, elemento.getPorcao());
+            stmt.setDouble(6, elemento.getCalorias());
+            stmt.setDate(7, java.sql.Date.valueOf(elemento.getDataCriacao()));
+            stmt.setDate(8, java.sql.Date.valueOf(elemento.getDataModificacao()));            
+            
+            stmt.execute();
+            
+            ResultSet rs=stmt.getGeneratedKeys();
+            
+            int retorno=0;
+            if(rs.next()){
+                retorno = rs.getInt(1);
+            }
+            
+            System.out.println("O id inserido foi: " + retorno);
+            elemento.setId(retorno);
+            
+            return retorno;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     public boolean adiciona(Alimento alimento) {
         int proximaPosicaoLivre = this.proximaPosicaoLivre();
