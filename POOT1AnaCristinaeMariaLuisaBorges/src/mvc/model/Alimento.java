@@ -19,11 +19,8 @@ public class Alimento {
     private double calorias;
     private  LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private static long serialAl;
 
     public Alimento() {
-        Alimento.serialAl = Alimento.serialAl +1;
-        this.id = Alimento.serialAl;
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
     }
@@ -34,6 +31,10 @@ public class Alimento {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNome() {
