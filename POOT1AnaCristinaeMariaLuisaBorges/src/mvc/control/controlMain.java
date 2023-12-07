@@ -66,8 +66,6 @@ public class controlMain {
                     if (logada != null) {
                         int opcMenu = 10;
                         do {
-                            //colocar timeline aqui
-                            
                             opcMenu = gui.menuPrincipal();
                             switch (opcMenu) {
                                 case 0:

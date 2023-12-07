@@ -156,10 +156,6 @@ public class PostDAO {
             System.out.println("Nao ha postagens dessa pessoa.");
         }
     }
-    
-    //Função para criar a timeline
-    public void timeline(Pessoa logado) {
-    }
 }
 
 
