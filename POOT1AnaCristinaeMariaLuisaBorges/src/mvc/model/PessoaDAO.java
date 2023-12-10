@@ -148,7 +148,7 @@ public class PessoaDAO {
         ps.setLong(1, id);
         return ps;
     }
-    
+
     private PreparedStatement createLogin(Connection con, String login, String senha) throws SQLException {
         String sql = "select * from pessoa where login = ? and senha = ?";
         PreparedStatement ps = con.prepareStatement(sql);
@@ -196,26 +196,26 @@ public class PessoaDAO {
         Pessoa pessoa = new Pessoa();
 
         try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = createLogin(connection, login, senha); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Long id = rs.getLong("idPessoa");
+                String nome = rs.getString("nome");
+                String sexo = rs.getString("sexo");
+                Date currentDate = rs.getDate("dataNascimento");
+                LocalDate dataNascimento = currentDate.toLocalDate();
+                Date createDate = rs.getDate("dataCriacao");
+                LocalDate dataCriacao = createDate.toLocalDate();
+                Date updateDate = rs.getDate("dataModificacao");
+                LocalDate dataModificacao = updateDate.toLocalDate();
 
-            Long id = rs.getLong("idPessoa");
-            String nome = rs.getString("nome");
-            String sexo = rs.getString("sexo");
-            Date currentDate = rs.getDate("dataNascimento");
-            LocalDate dataNascimento = currentDate.toLocalDate();
-            Date createDate = rs.getDate("dataCriacao");
-            LocalDate dataCriacao = createDate.toLocalDate();
-            Date updateDate = rs.getDate("dataModificacao");
-            LocalDate dataModificacao = updateDate.toLocalDate();
-
-            pessoa.setId(id);
-            pessoa.setNome(nome);
-            pessoa.setSexo(sexo);
-            pessoa.setNascimento(dataNascimento);
-            pessoa.setLogin(login);
-            pessoa.setSenha(senha);
-            pessoa.setDataCriacao(dataCriacao);
-            pessoa.setDataModificacao(dataModificacao);
-
+                pessoa.setId(id);
+                pessoa.setNome(nome);
+                pessoa.setSexo(sexo);
+                pessoa.setNascimento(dataNascimento);
+                pessoa.setLogin(login);
+                pessoa.setSenha(senha);
+                pessoa.setDataCriacao(dataCriacao);
+                pessoa.setDataModificacao(dataModificacao);
+            }
             return pessoa;
         } catch (SQLException e) {
             throw new RuntimeException(e);
