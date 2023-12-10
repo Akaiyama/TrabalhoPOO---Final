@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 /**
  *
- * @author mb780 -> PessoaDAO - Parte 2
+ * @author ana e maria -> PessoaDAO - Parte 2
  */
 public class Pessoa {
     private long id;

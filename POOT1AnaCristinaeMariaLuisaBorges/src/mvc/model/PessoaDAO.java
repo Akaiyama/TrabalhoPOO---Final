@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  *
- * @author mb780 -> PessoaDAO - Parte 2
+ * @author ana e maria -> PessoaDAO - Parte 2
  */
 /*
     private long id;
@@ -88,7 +88,7 @@ public class PessoaDAO {
                 LocalDate dataCriacao = createDate.toLocalDate();
                 Date updateDate = rs.getDate("dataModificacao");
                 LocalDate dataModificacao = updateDate.toLocalDate();
-                
+
                 Pessoa pessoa = new Pessoa();
                 pessoa.setId(id);
                 pessoa.setNome(nome);
@@ -148,6 +148,14 @@ public class PessoaDAO {
         ps.setLong(1, id);
         return ps;
     }
+    
+    private PreparedStatement createLogin(Connection con, String login, String senha) throws SQLException {
+        String sql = "select * from pessoa where login = ? and senha = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, login);
+        ps.setString(2, senha);
+        return ps;
+    }
 
     //Função para excluir a pessoa
     public Pessoa exclui(Pessoa elemento) {
@@ -165,7 +173,8 @@ public class PessoaDAO {
         }
         return elemento;
     }
-    
+
+    //Função para alterar o login
     public Pessoa altera(Pessoa elemento, String dado) {
         String sql = "update pessoa set login = ? where idpessoa = ?";
 
@@ -180,5 +189,36 @@ public class PessoaDAO {
             throw new RuntimeException(e);
         }
         return elemento;
+    }
+
+    //Função para login
+    public Pessoa login(String login, String senha) {
+        Pessoa pessoa = new Pessoa();
+
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = createLogin(connection, login, senha); ResultSet rs = ps.executeQuery()) {
+
+            Long id = rs.getLong("idPessoa");
+            String nome = rs.getString("nome");
+            String sexo = rs.getString("sexo");
+            Date currentDate = rs.getDate("dataNascimento");
+            LocalDate dataNascimento = currentDate.toLocalDate();
+            Date createDate = rs.getDate("dataCriacao");
+            LocalDate dataCriacao = createDate.toLocalDate();
+            Date updateDate = rs.getDate("dataModificacao");
+            LocalDate dataModificacao = updateDate.toLocalDate();
+
+            pessoa.setId(id);
+            pessoa.setNome(nome);
+            pessoa.setSexo(sexo);
+            pessoa.setNascimento(dataNascimento);
+            pessoa.setLogin(login);
+            pessoa.setSenha(senha);
+            pessoa.setDataCriacao(dataCriacao);
+            pessoa.setDataModificacao(dataModificacao);
+
+            return pessoa;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

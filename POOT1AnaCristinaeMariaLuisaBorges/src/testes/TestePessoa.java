@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package mvc.control;
+package testes;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -23,6 +23,8 @@ public class TestePessoa {
         List<Pessoa> pessoas = null;
         PessoaDAO pessoaDAO = new PessoaDAO();
         
+        Pessoa pessoa = pessoaDAO.login("ana", "teste");
+        System.out.println(pessoa);
         //pessoaDAO.adicionaERetornaId(this.adicionarPessoa());
          
         //pessoas = pessoaDAO.mostrarTodos(null);
