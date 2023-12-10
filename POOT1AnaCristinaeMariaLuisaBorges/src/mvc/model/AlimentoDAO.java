@@ -61,7 +61,9 @@ public class AlimentoDAO {
 
         List<Alimento> alimentos = new ArrayList<>();
 
-        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection connection = new ConnectionFactory().getConnection(); 
+                PreparedStatement stmt = connection.prepareStatement(sql); 
+                ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 Long id = rs.getLong("idAlimento");
@@ -84,7 +86,7 @@ public class AlimentoDAO {
                 alimento.setGorduras(gorduras);
                 alimento.setPorcao(porcao);
                 alimento.calcCalorias();
-                alimento.setDataModificacao(dataModificacao);
+                
                                 
                 alimentos.add(alimento);
             }
@@ -94,5 +96,65 @@ public class AlimentoDAO {
 
         // itera no ResultSet
         return alimentos;
+    }
+    
+    public Alimento buscaPorID(long code) {
+        try (Connection connection = new ConnectionFactory().getConnection();
+            PreparedStatement ps = createPreparedStatement(connection, code);
+            ResultSet rs = ps.executeQuery()) {
+            
+            while (rs.next()) {
+                Long id = rs.getLong("idAlimento");
+                String nome = rs.getString("nome");
+                Double carboidratos = rs.getDouble("carboidratos");
+                Double proteinas = rs.getDouble("proteinas");
+                Double gorduras = rs.getDouble("gorduras");
+                int porcao = rs.getInt("porcao");
+                Double calorias = rs.getDouble("calorias");
+                Date createDate = rs.getDate("dataCriacao");
+                LocalDate dataCriacao = createDate.toLocalDate();
+                Date updateDate = rs.getDate("dataModificacao");
+                LocalDate dataModificacao = updateDate.toLocalDate();
+                
+                Alimento alimento = new Alimento();
+                alimento.setId(id);
+                alimento.setNome(nome);
+                alimento.setCarboidratos(carboidratos);
+                alimento.setProteinas(proteinas);
+                alimento.setGorduras(gorduras);
+                alimento.setPorcao(porcao);
+                alimento.calcCalorias();
+                alimento.setDataModificacao(dataModificacao);
+                alimento.setDataModificacao(dataModificacao);
+                return alimento;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+    
+    private PreparedStatement createPreparedStatement(Connection con, long id) throws SQLException {
+        String sql = "select * from alimento where idAlimento = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setLong(1, id);
+        return ps;
+    }
+    
+    public Alimento exclui(Alimento elemento) {
+        String sql = "delete from alimento where idAlimento = ?";
+
+        try (Connection connection = new ConnectionFactory().getConnection();
+                PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setLong(1, elemento.getId());
+            
+            stmt.execute();
+            
+            System.out.println("Elemento excluído com sucesso.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return elemento;
     }
 }

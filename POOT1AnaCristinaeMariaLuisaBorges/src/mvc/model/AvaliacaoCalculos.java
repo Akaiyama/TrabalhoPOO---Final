@@ -4,7 +4,7 @@
  */
 package mvc.model;
 
-import mvc.model.Avaliacao;
+import mvc.model.AvaliacaoFisica;
 import java.time.LocalDate;
 import java.time.Period;
 import java.math.BigDecimal;
@@ -50,7 +50,7 @@ public class AvaliacaoCalculos {
         return period.getYears();
     }
 
-    public double calculaIMC(Avaliacao avaliacao) {
+    public double calculaIMC(AvaliacaoFisica avaliacao) {
         //IMC = Peso ÷ (Altura × Altura)
         double alt = avaliacao.getAltura();
         alt = alt / 100;
@@ -58,7 +58,7 @@ public class AvaliacaoCalculos {
         return imc;
     }
 
-    public double calculaTMB(Avaliacao avaliacao, Pessoa pessoa, double fator) {
+    public double calculaTMB(AvaliacaoFisica avaliacao, Pessoa pessoa, double fator) {
         /*Fórmula para homens:
         TMB = fator da taxa de atividade x {66 + [(13,7 x Peso(kg)) + ( 5 x Altura(cm)) – (6,8 x Idade(anos))]}
         Fórmula para mulheres:
@@ -82,7 +82,7 @@ public class AvaliacaoCalculos {
         Fórmula para homens: % body fat = 86.010 x log10 (abdome – pescoço) – 70.041 x log10 (altura) + 36.76
         Com o % body fat calculado, basta fazer outras multiplicações para descobrir o peso de massa gorda e o restante é de massa magra.
      */
-    public double calculaBF(Avaliacao avaliacao, Pessoa pessoa) {
+    public double calculaBF(AvaliacaoFisica avaliacao, Pessoa pessoa) {
         double valor = 0;
         if (pessoa.getSexo().equals("F")) {
             double x = avaliacao.getCintura() + avaliacao.getQuadril() - avaliacao.getPescoco();
@@ -97,12 +97,12 @@ public class AvaliacaoCalculos {
         return valor;
     }
 
-    public double calculaMassaGorda(Avaliacao avaliacao) {
+    public double calculaMassaGorda(AvaliacaoFisica avaliacao) {
         double mg = (avaliacao.getPeso() * avaliacao.getBF()) / 100;
         return mg;
     }
 
-    public double calculaMassaMagra(Avaliacao avaliacao, Pessoa logada) {
+    public double calculaMassaMagra(AvaliacaoFisica avaliacao, Pessoa logada) {
         double mm = 0;
         if (logada.getSexo().equals("F")) {
             mm = avaliacao.getPeso() * (1 - (avaliacao.getBF() / 100));

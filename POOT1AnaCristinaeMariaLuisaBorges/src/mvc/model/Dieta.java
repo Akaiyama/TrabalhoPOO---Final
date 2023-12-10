@@ -14,23 +14,24 @@ public class Dieta {
 
     private long id;
     private Pessoa pessoa;
-    private Avaliacao avaliacaoFisica;
+    private AvaliacaoFisica avaliacaoFisica;
     private TipoDieta tipo;
     private String objetivo;
     private double calorias;
     private int nroRefeicoes;
     private LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private static long serialRe;
 
-    public Dieta(Pessoa pessoa, Avaliacao av, TipoDieta tipo) {
-        Dieta.serialRe = Dieta.serialRe + 1;
-        this.id = Dieta.serialRe;
+    public Dieta(Pessoa pessoa, AvaliacaoFisica av, TipoDieta tipo) {
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
         this.setPessoa(pessoa);
         this.setAvaliacaoFisica(av);
         this.setTipo(tipo);
+    }
+    
+    public Dieta(){
+        
     }
 
     public long getId() {
@@ -45,11 +46,11 @@ public class Dieta {
         this.pessoa = pessoa;
     }
 
-    public Avaliacao getAvaliacaoFisica() {
+    public AvaliacaoFisica getAvaliacaoFisica() {
         return avaliacaoFisica;
     }
 
-    public void setAvaliacaoFisica(Avaliacao avaliacaoFisica) {
+    public void setAvaliacaoFisica(AvaliacaoFisica avaliacaoFisica) {
         this.avaliacaoFisica = avaliacaoFisica;
     }
 
@@ -96,6 +97,10 @@ public class Dieta {
                 this.calorias = tmb + 500;
         }     
     }
+    
+    public void setCalorias(Double calorias){
+        this.calorias = calorias;
+    }
 
     public int getNroRefeicoes() {
         return nroRefeicoes;
@@ -111,6 +116,22 @@ public class Dieta {
 
     public LocalDate getDataModificacao() {
         return dataModificacao;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setObjetivo(String objetivo) {
+        this.objetivo = objetivo;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public void setDataModificacao(LocalDate dataModificacao) {
+        this.dataModificacao = dataModificacao;
     }
 
     @Override
