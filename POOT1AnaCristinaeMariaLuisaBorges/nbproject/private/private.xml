@@ -3,17 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< Updated upstream
-            <file>file:/C:/Users/mb780/OneDrive/Área%20de%20Trabalho/ARQUIVOS/FACULDADE/POO/trabalhoPOO-main/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/control/controlMain.java</file>
-=======
-            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/model/Alimento.java</file>
-            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/control/controlMain.java</file>
-            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/model/SeguirDAO.java</file>
+            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/model/Preferencias.java</file>
             <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/view/GUIMain.java</file>
-            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/control/TesteAlimento.java</file>
-            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/model/AlimentoDAO.java</file>
-            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/control/ConnectionFactory.java</file>
->>>>>>> Stashed changes
+            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/model/Dieta.java</file>
+            <file>file:/C:/Users/anath/Documents/GitHub/TrabalhoPOO---Final/POOT1AnaCristinaeMariaLuisaBorges/src/mvc/model/Refeicoes.java</file>
         </group>
     </open-files>
 </project-private>
