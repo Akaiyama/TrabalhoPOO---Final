@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 
 /**
  *

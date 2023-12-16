@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 
 /**
  *
@@ -59,9 +59,10 @@ public class MensagemDAO {
         PessoaDAO pessoaDAO = new PessoaDAO();
         List<Mensagem> mensagens = new ArrayList<>();
 
-        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = createPreparedStatement(connection, logada.getId()); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
+                if (logada.getId() == rs.getLong("idpOrigem") || logada.getId() == rs.getLong("idpDestino")) {
                     Long id = rs.getLong("idmensagem");
                     Long idOrigem = rs.getLong("idpOrigem");
                     Long idDestino = rs.getLong("idpDestino");
@@ -82,7 +83,7 @@ public class MensagemDAO {
                     m.setDataCriacao(dataCriacao);
                     m.setDataModificacao(dataModificacao);
                     mensagens.add(m);
-                
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -93,7 +94,7 @@ public class MensagemDAO {
     //Função para buscar a mensagem pelo ID
     public Mensagem buscaPorID(long code, Pessoa logada) {
         PessoaDAO pessoaDAO = new PessoaDAO();
-        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = createPreparedStatement(connection, code); ResultSet rs = ps.executeQuery()) {
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = createPreparedStatement(connection, logada.getId()); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 if (logada.getId() == rs.getLong("idpOrigem") || logada.getId() == rs.getLong("idpDestino")) {
@@ -128,9 +129,10 @@ public class MensagemDAO {
 
     //Config PreparedStatement
     private PreparedStatement createPreparedStatement(Connection con, long id) throws SQLException {
-        String sql = "select * from mensagem where idmensagem = ?";
+        String sql = "select * from mensagem where idpOrigem = ? or idpDestino = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setLong(1, id);
+        ps.setLong(2, id);
         return ps;
     }
 

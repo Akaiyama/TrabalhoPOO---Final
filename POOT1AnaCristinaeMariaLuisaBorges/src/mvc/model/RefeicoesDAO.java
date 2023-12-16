@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 
 /**
  *
@@ -87,6 +87,7 @@ public class RefeicoesDAO {
                 Dieta dieta = dietaDAO.buscaPorID(iddieta);
                
                 Refeicoes refeicao = new Refeicoes();
+                refeicao.setId(id);
                 refeicao.setDieta(dieta);
                 refeicao.setCarboidratos(carboidratos);
                 refeicao.setCarbMAX(carbMAX);
@@ -136,6 +137,7 @@ public class RefeicoesDAO {
                 Dieta dieta = dietaDAO.buscaPorID(iddieta);
                
                 Refeicoes refeicao = new Refeicoes();
+                refeicao.setId(id);
                 refeicao.setDieta(dieta);
                 refeicao.setCarboidratos(carboidratos);
                 refeicao.setCarbMAX(carbMAX);

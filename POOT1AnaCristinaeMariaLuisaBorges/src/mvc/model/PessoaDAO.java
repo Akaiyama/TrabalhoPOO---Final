@@ -4,7 +4,7 @@
  */
 package mvc.model;
 
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -59,7 +59,7 @@ public class PessoaDAO {
                 retorno = rs.getInt(1);
             }
 
-            System.out.println("Cadastro realizado com sucesso, seu id de cadastro: " + retorno);
+            System.out.println("O id inserido foi: " + retorno);
             elemento.setId(retorno);
 
             return retorno;

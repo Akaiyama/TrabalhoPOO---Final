@@ -112,7 +112,7 @@ public class AlimentoRefeicao {
     @Override
     public String toString() {
         return "\n========================================"
-                + "\nAlimentoRefeicao{" + "\nid=" + id + "\n refeicao=" + refeicao.getNomeRefeicao() + "\n alimento=" + alimento.getNome() + '}';
+                + "\nAlimentoRefeicao{" + "\nid=" + id + "\n refeicao=" + refeicao.getNomeRefeicao() + "\n alimento=" + alimento.getNome() + "\n calorias=" + refeicao.getCalorias() +'}';
     }
 
     @Override

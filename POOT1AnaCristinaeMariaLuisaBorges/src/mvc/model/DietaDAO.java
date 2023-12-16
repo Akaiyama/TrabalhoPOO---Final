@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 
 /**
  *
@@ -58,7 +58,7 @@ public class DietaDAO {
     }
 
     //Função para mostrar todas as avaliações
-    public List<Dieta> mostrarTodos(Dieta elemento) {
+    public List<Dieta> mostrarTodos(Dieta elemento, Pessoa logada) {
         String sql = "select * from dieta";
         PessoaDAO pessoaDAO = new PessoaDAO();
         AvaliacaoFisicaDAO avaliacaoDAO = new AvaliacaoFisicaDAO();
@@ -66,7 +66,7 @@ public class DietaDAO {
 
         List<Dieta> dietas = new ArrayList<>();
 
-        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = create(connection, logada.getId()); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Long id = rs.getLong("iddieta");
@@ -151,6 +151,14 @@ public class DietaDAO {
     //Config PreparedStatement
     private PreparedStatement createPreparedStatement(Connection con, long id) throws SQLException {
         String sql = "select * from dieta where iddieta = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setLong(1, id);
+        return ps;
+    }
+    
+    //Config PreparedStatement
+    private PreparedStatement create(Connection con, long id) throws SQLException {
+        String sql = "select * from dieta where idpessoaDieta = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setLong(1, id);
         return ps;

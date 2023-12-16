@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 
 /**
  *
@@ -144,13 +144,12 @@ public class PostDAO {
     }
     
     public Post altera(Post elemento, String dado) {
-        String sql = "update post set postagem = ?, dataModificacao = ? where idpost = ?";
+        String sql = "update post set postagem = ? where idpessoaPost = ?";
 
         try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, dado);
-            stmt.setDate(2, java.sql.Date.valueOf(LocalDate.now()));
-            stmt.setLong(3, elemento.getId());
+            stmt.setLong(2, elemento.getId());
             stmt.execute();
 
             System.out.println("Voce alterou seu post.");

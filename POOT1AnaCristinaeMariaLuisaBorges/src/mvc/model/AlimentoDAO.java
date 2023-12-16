@@ -4,7 +4,7 @@
  */
 package mvc.model;
 
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;

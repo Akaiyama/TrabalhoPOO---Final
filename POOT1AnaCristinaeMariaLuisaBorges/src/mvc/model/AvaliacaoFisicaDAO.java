@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 
 /**
  *
@@ -65,13 +65,13 @@ public class AvaliacaoFisicaDAO {
     }
 
     //Função para mostrar todas as avaliações
-    public List<AvaliacaoFisica> mostrarTodos(AvaliacaoFisica elemento) {
+    public List<AvaliacaoFisica> mostrarTodos(AvaliacaoFisica elemento, Pessoa logada) {
         String sql = "select * from avaliacaofisica";
         PessoaDAO pessoaDAO = new PessoaDAO();
         AvaliacaoCalculos a = new AvaliacaoCalculos();
         List<AvaliacaoFisica> avaliacoes = new ArrayList<>();
 
-        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery(sql)) {
+       try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = create(connection, logada.getId()); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Long id = rs.getLong("idavaliacaofisica");
@@ -179,6 +179,13 @@ public class AvaliacaoFisicaDAO {
         ps.setLong(1, id);
         return ps;
     }
+//Config PreparedStatement
+    private PreparedStatement create(Connection con, long id) throws SQLException {
+        String sql = "select * from avaliacaofisica where idpessoa = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setLong(1, id);
+        return ps;
+    }
 
     //Função para excluir a avaliação
     public AvaliacaoFisica exclui(AvaliacaoFisica elemento) {
@@ -190,7 +197,7 @@ public class AvaliacaoFisicaDAO {
 
             stmt.execute();
 
-            System.out.println("Elemento excluido com sucesso.");
+            System.out.println("Avaliacao excluida com sucesso.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

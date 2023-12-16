@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import mvc.control.ConnectionFactory;
+import teste.ConnectionFactory;
 
 /**
  *
@@ -67,14 +67,14 @@ public class AlimentoRefeicaoDAO {
     }
 
     //Função para mostrar todas os alimentoRefeição
-    public List<AlimentoRefeicao> mostrarTodos(AlimentoRefeicao elemento) {
+    public List<AlimentoRefeicao> mostrarTodos(AlimentoRefeicao elemento, Refeicoes ref) {
         String sql = "select * from alimentorefeicao";
         RefeicoesDAO refeicoesDAO = new RefeicoesDAO();
         AlimentoDAO alimentoDAO = new AlimentoDAO();
 
         List<AlimentoRefeicao> alimentorefeicoes = new ArrayList<>();
 
-        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = create(connection, ref.getId()); ResultSet rs = ps.executeQuery()) {
 
             while (rs.next()) {
                 Long id = rs.getLong("idAlimentoRefeicao");
@@ -160,6 +160,14 @@ public class AlimentoRefeicaoDAO {
     //Config PreparedStatement
     private PreparedStatement createPreparedStatement(Connection con, long id) throws SQLException {
         String sql = "select * from alimentorefeicao where idAlimentoRefeicao = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setLong(1, id);
+        return ps;
+    }
+    
+    //Config PreparedStatement
+    private PreparedStatement create(Connection con, long id) throws SQLException {
+        String sql = "select * from alimentorefeicao where idRefeicao = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setLong(1, id);
         return ps;
