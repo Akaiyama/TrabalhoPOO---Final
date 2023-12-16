@@ -192,6 +192,8 @@ public class Main {
                     System.out.println("\n============> Passando para o menu Mensagens ==========>\n");
                     int opcMens = gui.menuMensagem();
                     switch (opcMens) {
+                        case 0:
+                            break;
                         case 1:
                             Mensagem m = gui.mandarMensagem(logada, pessoaDAO);
                             verificaPodeMandar(m);
