@@ -144,12 +144,13 @@ public class PostDAO {
     }
     
     public Post altera(Post elemento, String dado) {
-        String sql = "update post set postagem = ? where idpessoaPost = ?";
+        String sql = "update post set postagem = ?, dataModificacao = ? where idpost = ?";
 
         try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, dado);
-            stmt.setLong(2, elemento.getId());
+            stmt.setDate(2, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.setLong(3, elemento.getId());
             stmt.execute();
 
             System.out.println("Voce alterou seu post.");

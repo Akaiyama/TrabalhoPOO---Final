@@ -62,7 +62,6 @@ public class MensagemDAO {
         try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                if (logada.getId() == rs.getLong("idpOrigem") || logada.getId() == rs.getLong("idpDestino")) {
                     Long id = rs.getLong("idmensagem");
                     Long idOrigem = rs.getLong("idpOrigem");
                     Long idDestino = rs.getLong("idpDestino");
@@ -83,7 +82,7 @@ public class MensagemDAO {
                     m.setDataCriacao(dataCriacao);
                     m.setDataModificacao(dataModificacao);
                     mensagens.add(m);
-                }
+                
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

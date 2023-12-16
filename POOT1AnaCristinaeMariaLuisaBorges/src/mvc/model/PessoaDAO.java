@@ -59,7 +59,7 @@ public class PessoaDAO {
                 retorno = rs.getInt(1);
             }
 
-            System.out.println("O id inserido foi: " + retorno);
+            System.out.println("Cadastro realizado com sucesso, seu id de cadastro: " + retorno);
             elemento.setId(retorno);
 
             return retorno;
@@ -167,7 +167,7 @@ public class PessoaDAO {
 
             stmt.execute();
 
-            System.out.println("Elemento excluido com sucesso.");
+            System.out.println("Conta excluida com sucesso.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -176,14 +176,16 @@ public class PessoaDAO {
 
     //Função para alterar o login
     public Pessoa altera(Pessoa elemento, String dado) {
-        String sql = "update pessoa set login = ? where idpessoa = ?";
+        String sql = "update pessoa set login = ?, dataModificacao = ? where idpessoa = ?";
 
         try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
             stmt.setString(1, dado);
-            stmt.setLong(2, elemento.getId());
+            stmt.setDate(2, java.sql.Date.valueOf(LocalDate.now()));
+            stmt.setLong(3, elemento.getId());
+            
             stmt.execute();
-
+            
             System.out.println("Voce alterou seu login.");
         } catch (SQLException e) {
             throw new RuntimeException(e);
