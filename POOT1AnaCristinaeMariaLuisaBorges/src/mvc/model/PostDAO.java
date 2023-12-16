@@ -4,100 +4,158 @@
  */
 package mvc.model;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import teste.ConnectionFactory;
+
 /**
  *
- * @author mb780
+ * @author ana e maria
  */
 public class PostDAO {
+    //Função para adicionar POST
+    public long adicionaERetornaId(Post elemento) {
+        String sql = "insert into post "
+                + "(idpessoaPost,postagem,dataCriacao,dataModificacao)"
+                + " values (?,?,?,?)";
+        
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            // seta os valores
+            stmt.setLong(1, elemento.getPessoa().getId());
+            stmt.setString(2, elemento.getPostagem());
+            stmt.setDate(3, java.sql.Date.valueOf(elemento.getDataCriacao()));
+            stmt.setDate(4, java.sql.Date.valueOf(elemento.getDataModificacao()));
 
-    Post[] posts = new Post[100];
+            stmt.execute();
 
-    public PostDAO() {
+            ResultSet rs = stmt.getGeneratedKeys();
+
+            int retorno = 0;
+            if (rs.next()) {
+                retorno = rs.getInt(1);
+            }
+
+            System.out.println("O id inserido foi: " + retorno);
+            elemento.setId(retorno);
+
+            return retorno;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public PostDAO(PessoaDAO pessoa, DietaDAO dieta, AvaliacaoDAO avaliacao) {
-        Pessoa p1 = pessoa.buscaPessoaLogin("ana", "teste");
+    //Função para mostrar todos os usuários e seus seguidores (todas as conexões entre usuários)
+    public List<Post> mostrarTodos(Post elemento) {
+        String sql = "select * from post";
+        PessoaDAO pessoaDAO = new PessoaDAO();
+        List<Post> posts = new ArrayList<>();
 
-        Post po1 = new Post();
-        po1.setPessoa(p1);
-        po1.setPost("Vou compartilhar com vocês a minha jornada em busca por um corpo melhor e vou mostrar o processo para vocês!");
-        this.adiciona(po1);
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                Long id = rs.getLong("idpost");
+                long idpessoa = rs.getLong("idpessoaPost");
+                String postagem = rs.getString("postagem");
+                Date createDate = rs.getDate("dataCriacao");
+                LocalDate dataCriacao = createDate.toLocalDate();
+                Date updateDate = rs.getDate("dataModificacao");
+                LocalDate dataModificacao = updateDate.toLocalDate();
+              
+                Pessoa p = pessoaDAO.buscaPorID(idpessoa);
+                
+                Post post = new Post();
+                post.setId(id);
+                post.setPessoa(p);
+                post.setPostagem(postagem);
+                post.setDataCriacao(dataCriacao);
+                post.setDataModificacao(dataModificacao);
+                posts.add(post);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return posts;
+    }
+
+    //Função para buscar POST pelo ID
+    public Post buscaPorID(long code) {
+        PessoaDAO pessoaDAO = new PessoaDAO();
+        PostDAO postDAO = new PostDAO();
         
-        Post po2 = new Post();
-        po2.setPessoa(p1);
-        po2.setPost("""
-                    Bom dia familia! Vim atualizar voces sobre a evolucao do shape da mãe, da so uma olhada
-                    *FOTO*""");
-        this.adiciona(po1);
-        
-        Post po3 = new Post();
-        po3.setPessoa(p1);
-        po3.setPost("Atualização final da minha evolução: as dietas e as avaliações que fiz me ajudaram demais no processo.");
-       
-        this.adiciona(po1);
-        
-    }  
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement ps = createPreparedStatement(connection, code); ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Long id = rs.getLong("idpost");
+                long idpessoa = rs.getLong("idpessoaPost");
+                String postagem = rs.getString("postagem");
+                Date createDate = rs.getDate("dataCriacao");
+                LocalDate dataCriacao = createDate.toLocalDate();
+                Date updateDate = rs.getDate("dataModificacao");
+                LocalDate dataModificacao = updateDate.toLocalDate();
+              
+                Pessoa p = pessoaDAO.buscaPorID(idpessoa);
+                
+                Post post = new Post();
+                post.setId(id);
+                post.setPessoa(p);
+                post.setPostagem(postagem);
+                post.setDataCriacao(dataCriacao);
+                post.setDataModificacao(dataModificacao);
+                
+                return post;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
+    //Config PreparedStatement
+    private PreparedStatement createPreparedStatement(Connection con, long id) throws SQLException {
+        String sql = "select * from post where idpost = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setLong(1, id);
+        return ps;
+    }
+
+    //Função para excluir POST
+    public Post exclui(Post elemento) {
+        String sql = "delete from post where idpost = ?";
+
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
+
+            stmt.setLong(1, elemento.getId());
+
+            stmt.execute();
+
+            System.out.println("Elemento excluido com sucesso.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return elemento;
+    }
     
-    public boolean adiciona(Post post) {
-        int proximaPosicaoLivre = this.proximaPosicaoLivre();
-        if (proximaPosicaoLivre != -1) {
-            posts[proximaPosicaoLivre] = post;
-            return true;
-        } else {
-            return false;
-        }
-    }
+    public Post altera(Post elemento, String dado) {
+        String sql = "update post set postagem = ? where idpessoaPost = ?";
 
-    public boolean ehVazio() {
-        for (Post post : posts) {
-            if (post != null) {
-                return false;
-            }
-        }
-        return true;
-    }
+        try (Connection connection = new ConnectionFactory().getConnection(); PreparedStatement stmt = connection.prepareStatement(sql)) {
 
-    public void mostrarTodos() {
-        boolean tem = false;
-        for (Post post : posts) {
-            if (post != null) {
-                System.out.println(post.toString());
-                tem = true;
-            }
-        }
-        if (!tem) {
-            System.out.println("Não há postagens dessa pessoa.");
-        }
-    }
-    
-    public boolean alterarPost(long id, String novoPost){
-        for (Post post : posts) {
-            if (post != null && post.getId() == id) {
-                post.setPost(novoPost);
-            }
-            return true;
-        }
-        return false;
-    }
+            stmt.setString(1, dado);
+            stmt.setLong(2, elemento.getId());
+            stmt.execute();
 
-    public boolean remover(String post) {
-        for (int i = 0; i < posts.length; i++) {
-            if (posts[i] != null && posts[i].getPost().equals(post)) {
-                posts[i] = null;
-                return true;
-            }
+            System.out.println("Voce alterou seu post.");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return false;
+        return elemento;
     }
-
-    private int proximaPosicaoLivre() {
-        for (int i = 0; i < posts.length; i++) {
-            if (posts[i] == null) {
-                return i;
-            }
-        }
-        return -1;
-
-    }
-
 }

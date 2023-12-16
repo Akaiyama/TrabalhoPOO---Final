@@ -1,15 +1,15 @@
-package mvc.model;
-import java.time.LocalDate;
-import java.util.Objects;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+package mvc.model;
+
+import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  *
- * @author mb780
+ * @author Ana Cristina e Maria Luísa -> Seguir - Parte 2
  */
 public class Seguir {
     private long id;
@@ -17,17 +17,18 @@ public class Seguir {
     private Pessoa pessoaDestino;
     private LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private static long serial;
-    
+ 
     public Seguir(){
-        Seguir.serial = Seguir.serial + 1;
-        this.id = Seguir.serial;
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Pessoa getPessoaOrigem() {
@@ -65,18 +66,17 @@ public class Seguir {
     @Override
     public String toString() {
         return "\n========================================"
-                + "\nSeguidores: " + pessoaDestino.getNome()
-                + "\ndataModificacao: " + dataModificacao + '}';
+                + "\nSeguidores: " + pessoaDestino.getNome() + "\ndataModificacao: " + dataModificacao + '}';
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 79 * hash + Objects.hashCode(this.pessoaOrigem);
-        hash = 79 * hash + Objects.hashCode(this.pessoaDestino);
-        hash = 79 * hash + Objects.hashCode(this.dataCriacao);
-        hash = 79 * hash + Objects.hashCode(this.dataModificacao);
+        int hash = 5;
+        hash = 13 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 13 * hash + Objects.hashCode(this.pessoaOrigem);
+        hash = 13 * hash + Objects.hashCode(this.pessoaDestino);
+        hash = 13 * hash + Objects.hashCode(this.dataCriacao);
+        hash = 13 * hash + Objects.hashCode(this.dataModificacao);
         return hash;
     }
 
@@ -106,6 +106,4 @@ public class Seguir {
         }
         return Objects.equals(this.dataModificacao, other.dataModificacao);
     }
-    
-    
 }

@@ -5,34 +5,36 @@
 package mvc.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /**
  *
- * @author Ana Cristina e Maria Luisa
+ * @author ana e maria
  */
+
 public class AlimentoRefeicao {
     private long id;
     private Refeicoes refeicao;
     private Alimento alimento;
-    private double porcao;
+    private int porcao;
     private double proteinas;
     private double gorduras;
     private double carboidratos;
     private double calorias;
     private LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private static long serialAr;
     
-
     public AlimentoRefeicao() {
-        AlimentoRefeicao.serialAr = AlimentoRefeicao.serialAr +1;
-        this.id = AlimentoRefeicao.serialAr;
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Refeicoes getRefeicao() {
@@ -51,11 +53,11 @@ public class AlimentoRefeicao {
         this.alimento = alimento;
     }
 
-    public double getPorcao() {
+    public int getPorcao() {
         return porcao;
     }
 
-    public void setPorcao(double porcao) {
+    public void setPorcao(int porcao) {
         this.porcao = porcao;
     }
 
@@ -95,22 +97,37 @@ public class AlimentoRefeicao {
         return dataCriacao;
     }
 
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
     public LocalDate getDataModificacao() {
         return dataModificacao;
     }
 
+    public void setDataModificacao(LocalDate dataModificacao) {
+        this.dataModificacao = dataModificacao;
+    }
+    
     @Override
     public String toString() {
         return "\n========================================"
-                + "\nAlimentoRefeicao{" + "\nid=" + id + "\n refeicao=" + refeicao.getNomeRefeicao() + "\n alimento=" + alimento.getNome() + '}';
+                + "\nAlimentoRefeicao{" + "\nid=" + id + "\n refeicao=" + refeicao.getNomeRefeicao() + "\n alimento=" + alimento.getNome() + "\n calorias=" + refeicao.getCalorias() +'}';
     }
 
-    
-    
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 59 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.refeicao);
+        hash = 37 * hash + Objects.hashCode(this.alimento);
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.porcao) ^ (Double.doubleToLongBits(this.porcao) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.proteinas) ^ (Double.doubleToLongBits(this.proteinas) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.gorduras) ^ (Double.doubleToLongBits(this.gorduras) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.carboidratos) ^ (Double.doubleToLongBits(this.carboidratos) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.calorias) ^ (Double.doubleToLongBits(this.calorias) >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.dataCriacao);
+        hash = 37 * hash + Objects.hashCode(this.dataModificacao);
         return hash;
     }
 
@@ -126,9 +143,33 @@ public class AlimentoRefeicao {
             return false;
         }
         final AlimentoRefeicao other = (AlimentoRefeicao) obj;
-        return this.id == other.id;
-    }
-
-    
-
+        if (this.id != other.id) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.porcao) != Double.doubleToLongBits(other.porcao)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.proteinas) != Double.doubleToLongBits(other.proteinas)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.gorduras) != Double.doubleToLongBits(other.gorduras)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.carboidratos) != Double.doubleToLongBits(other.carboidratos)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.calorias) != Double.doubleToLongBits(other.calorias)) {
+            return false;
+        }
+        if (!Objects.equals(this.refeicao, other.refeicao)) {
+            return false;
+        }
+        if (!Objects.equals(this.alimento, other.alimento)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataCriacao, other.dataCriacao)) {
+            return false;
+        }
+        return Objects.equals(this.dataModificacao, other.dataModificacao);
+    }    
 }

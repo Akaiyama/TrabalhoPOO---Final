@@ -3,20 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mvc.model;
+
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.Objects;
+
 /**
  *
- * @author Ana Cristina e Maria Luisa
+ * @author mb780
  */
-public class Avaliacao{
-    /*id, pessoa, peso, altura, 
-idade, pescoco, cintura, quadril, IMC, TMB, BF, 
-massa gorda kg, massa magra kg, dataCriacao, dataModificacao.*/
-    
+public class AvaliacaoFisica {
     private long id;
-    private static long serialAv;
+    private Pessoa pessoa;
     private double peso;
     private double altura;
     private int idade;
@@ -30,18 +27,19 @@ massa gorda kg, massa magra kg, dataCriacao, dataModificacao.*/
     private double BF;
     private LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private Pessoa pessoa;
-      
-     public Avaliacao(Pessoa pessoa) {
+
+    public AvaliacaoFisica(Pessoa pessoa) {
         this.pessoa = pessoa;
-        Avaliacao.serialAv = Avaliacao.serialAv+1;
-        this.id = Avaliacao.serialAv;
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public double getPeso() {
@@ -132,12 +130,12 @@ massa gorda kg, massa magra kg, dataCriacao, dataModificacao.*/
         this.BF = BF;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
     public LocalDate getDataCriacao() {
         return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
     }
 
     public LocalDate getDataModificacao() {
@@ -148,6 +146,14 @@ massa gorda kg, massa magra kg, dataCriacao, dataModificacao.*/
         this.dataModificacao = dataModificacao;
     }
 
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+    
     @Override
     public String toString() {
         return "\n========================================"
@@ -158,8 +164,22 @@ massa gorda kg, massa magra kg, dataCriacao, dataModificacao.*/
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 47 * hash + (int) (this.id ^ (this.id >>> 32));
+        int hash = 5;
+        hash = 37 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.peso) ^ (Double.doubleToLongBits(this.peso) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.altura) ^ (Double.doubleToLongBits(this.altura) >>> 32));
+        hash = 37 * hash + this.idade;
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.pescoco) ^ (Double.doubleToLongBits(this.pescoco) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.cintura) ^ (Double.doubleToLongBits(this.cintura) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.quadril) ^ (Double.doubleToLongBits(this.quadril) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.massaGorda) ^ (Double.doubleToLongBits(this.massaGorda) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.massaMagra) ^ (Double.doubleToLongBits(this.massaMagra) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.IMC) ^ (Double.doubleToLongBits(this.IMC) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.TMB) ^ (Double.doubleToLongBits(this.TMB) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.BF) ^ (Double.doubleToLongBits(this.BF) >>> 32));
+        hash = 37 * hash + Objects.hashCode(this.dataCriacao);
+        hash = 37 * hash + Objects.hashCode(this.dataModificacao);
+        hash = 37 * hash + Objects.hashCode(this.pessoa);
         return hash;
     }
 
@@ -174,12 +194,7 @@ massa gorda kg, massa magra kg, dataCriacao, dataModificacao.*/
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Avaliacao other = (Avaliacao) obj;
-        return this.id == other.id;
+        final AvaliacaoFisica other = (AvaliacaoFisica) obj;
+        return true;
     }
-
-    
-   
-
-    
 }

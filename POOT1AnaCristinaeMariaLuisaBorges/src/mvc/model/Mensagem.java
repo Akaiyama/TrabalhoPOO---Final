@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mvc.model;
+
 import java.time.LocalDate;
 import java.util.Objects;
 
 /**
  *
- * @author Ana Cristina e Maria Luisa
+ * @author Ana Cristina e Maria Luisa -> Mensagem - Parte 2
  */
 public class Mensagem {
     private long id;
@@ -17,13 +18,18 @@ public class Mensagem {
     private String mensagem = "";
     private LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private static long serial;
     
     public Mensagem() {
-        Mensagem.serial = Mensagem.serial + 1;
-        this.id = Mensagem.serial;
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public Pessoa getPessoaOrigem() {
@@ -65,27 +71,22 @@ public class Mensagem {
     public void setDataModificacao(LocalDate dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
-
-    public long getId() {
-        return id;
-    }
     
     @Override
     public String toString() {
         return "\n========================================"
-                + "\nPessoa Origem: " + pessoaOrigem + "\nid: " + id + "\n Pessoa Destino: " + pessoaDestino + "\nMensagens: " + mensagem
-                + "\n dataCriacao: " + dataCriacao + ", dataModificacao: " + dataModificacao + '}';
+                + "\nPessoa Origem: " + pessoaOrigem.getNome() + "\nPessoa Destino: " + pessoaDestino.getNome() + "\n       Mensagens: " + mensagem;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + (int) (this.id ^ (this.id >>> 32));
-        hash = 53 * hash + Objects.hashCode(this.pessoaOrigem);
-        hash = 53 * hash + Objects.hashCode(this.pessoaDestino);
-        hash = 53 * hash + Objects.hashCode(this.mensagem);
-        hash = 53 * hash + Objects.hashCode(this.dataCriacao);
-        hash = 53 * hash + Objects.hashCode(this.dataModificacao);
+        int hash = 3;
+        hash = 97 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 97 * hash + Objects.hashCode(this.pessoaOrigem);
+        hash = 97 * hash + Objects.hashCode(this.pessoaDestino);
+        hash = 97 * hash + Objects.hashCode(this.mensagem);
+        hash = 97 * hash + Objects.hashCode(this.dataCriacao);
+        hash = 97 * hash + Objects.hashCode(this.dataModificacao);
         return hash;
     }
 

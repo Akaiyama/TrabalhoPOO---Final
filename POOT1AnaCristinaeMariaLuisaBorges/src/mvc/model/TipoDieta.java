@@ -18,17 +18,18 @@ public class TipoDieta {
     private double gorduras;
     private LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private static long serialT;
 
     public TipoDieta() {
-        TipoDieta.serialT = TipoDieta.serialT + 1;
-        this.id = TipoDieta.serialT;
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -58,6 +59,10 @@ public class TipoDieta {
         }
     }
 
+    public void setNome2(String nome){
+        this.nome = nome;
+    }
+    
     public double getCarboidratos() {
         return carboidratos;
     }
@@ -90,6 +95,14 @@ public class TipoDieta {
         return dataModificacao;
     }
 
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public void setDataModificacao(LocalDate dataModificacao) {
+        this.dataModificacao = dataModificacao;
+    }
+    
     @Override
     public String toString() {
         return "\n========================================"

@@ -93,6 +93,10 @@ public class Alimento {
     public void setDataModificacao(LocalDate dataModificacao) {
         this.dataModificacao = dataModificacao;
     }
+
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
     
     
 

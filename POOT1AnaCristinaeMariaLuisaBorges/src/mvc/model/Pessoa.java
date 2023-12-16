@@ -3,16 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package mvc.model;
-
 import java.time.LocalDate;
 import java.util.Objects;
-
 /**
  *
- * @author Ana Cristina e Maria Luisa
+ * @author mb780 -> PessoaDAO - Parte 2
  */
 public class Pessoa {
-
     private long id;
     private String nome;
     private String sexo;
@@ -22,17 +19,18 @@ public class Pessoa {
     private String tipoUsuario;
     private LocalDate dataCriacao;
     private LocalDate dataModificacao;
-    private static long serialPe;
 
     public Pessoa() {
-        Pessoa.serialPe = Pessoa.serialPe + 1;
-        this.id = Pessoa.serialPe;
         this.dataCriacao = LocalDate.now();
         this.dataModificacao = LocalDate.now();
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -87,15 +85,38 @@ public class Pessoa {
         return dataCriacao;
     }
 
+    public void setDataCriacao(LocalDate dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
     public LocalDate getDataModificacao() {
         return dataModificacao;
     }
 
+    public void setDataModificacao(LocalDate dataModificacao) {
+        this.dataModificacao = dataModificacao;
+    }
+
+    @Override
+    public String toString() {
+        return "\n========================================"
+                + "\nPessoa{" + "\nid=" + id + "\n nome=" + nome + "\n sexo=" + sexo + "\n nascimento=" 
+                + nascimento + "\n login=" + login + "\n senha=" + senha 
+                + "\n dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + Objects.hashCode(this.login);
-        hash = 71 * hash + Objects.hashCode(this.senha);
+        int hash = 5;
+        hash = 17 * hash + (int) (this.id ^ (this.id >>> 32));
+        hash = 17 * hash + Objects.hashCode(this.nome);
+        hash = 17 * hash + Objects.hashCode(this.sexo);
+        hash = 17 * hash + Objects.hashCode(this.nascimento);
+        hash = 17 * hash + Objects.hashCode(this.login);
+        hash = 17 * hash + Objects.hashCode(this.senha);
+        hash = 17 * hash + Objects.hashCode(this.tipoUsuario);
+        hash = 17 * hash + Objects.hashCode(this.dataCriacao);
+        hash = 17 * hash + Objects.hashCode(this.dataModificacao);
         return hash;
     }
 
@@ -137,14 +158,4 @@ public class Pessoa {
         }
         return Objects.equals(this.dataModificacao, other.dataModificacao);
     }
-
-    @Override
-    public String toString() {
-        return "\n========================================"
-                + "\nPessoa{" + "\nid=" + id + "\n nome=" + nome + "\n sexo=" + sexo + "\n nascimento=" 
-                + nascimento + "\n login=" + login + "\n senha=" + senha 
-                + "\n dataCriacao=" + dataCriacao + ", dataModificacao=" + dataModificacao + '}';
-    }
-
-    
 }
